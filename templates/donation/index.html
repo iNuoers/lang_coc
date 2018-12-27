@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>部落捐兵情况</title>
+	<style type="text/css">
+		body{
+			margin:0;
+		}
+		.title{
+			text-align:center;
+		}
+		.sub{
+			width: 648px;
+			border: 1px solid #333;
+			margin:0 auto;
+			/*text-align: center;*/
+		}
+
+
+		.sub p{
+			display: inline-block;
+
+		}
+
+		.sub span{
+			font:12px/50px 'Microsoft Yahei';
+			color: #ff8800;
+
+		}
+
+		.sub h3{
+			margin:0 60px 0 0;
+			padding: 0;
+			text-align: left;
+			display: inline-block;
+			font:16px/50px 'Microsoft Yahei';
+			color: #ff8800;
+		}
+
+		.clan_table{
+			width:650px;
+
+			border: 1px solid #333;
+			border-collapse: collapse;
+			font-family: 'Microsoft Yahei';
+			margin:-1px auto 0;
+		}
+
+		.clan_table th,.clan_table td{
+			height:30px;
+			border: 1px solid #333;
+			text-align: center;
+		}
+		.clan_table th{
+			background-color: #36c; /*3366cc*/
+			color: #fff /*ffffff*/
+		}
+
+
+
+
+		@media(max-width: 500px){
+			.sub{
+				width: calc(100% - 2px);
+			}
+			.clan_table{
+				width: 100%;
+			}
+			.clan_table tr .clans{
+			width: 15%;
+			overflow: hidden;
+			text-overflow:ellipsis;
+			}
+
+		}
+
+	</style>
+</head>
+<body>
+	<div class="title">
+			<h3>部落捐收情况提取</h3>
+	</div>
+	<div class="sub">
+			<form action="/done/" method="post">
+				{% csrf_token %}
+				<h3>本赛季第{{ days }}天,离赛季结束剩余{{ daysremaining }}天</h3>
+				<p><label>部落ID：#&nbsp;</label><input type="text" name="clan_id"  value="{{clan_id}}" /></p>
+				<p>
+					<input type="submit" name="" value="提交">
+					<!-- input类型为reset定义重置按钮  -->
+				</p>
+				{% if menbers_list|length == 0 %}
+					<span>部落ID为空或不正确</span>
+				{% endif %}
+			</form>
+	</div>
+
+	<table class="clan_table">
+
+		<tr>
+			<th>序列</th>
+			<th class="clans">部落</th>
+			<th>职位</th>
+			<th>大本等级</th>
+			<th>捐赠</th>
+			<th>获得</th>
+			<th>捐收和</th>
+			<th>备注</th>
+		</tr>
+		{% for i in menbers_list %}
+			<tr>
+				<td>{{ i.0 }}</td>
+				<td class="clans">{{ i.1 }}</td>
+				<td>{{ i.2.0 }}</td>
+				<td>{{ i.6 }}</td>
+				<td>{{ i.3 }}</td>
+				<td>{{ i.4 }}</td>
+				<td>{{ i.5 }}</td>
+				<td>{{ i.2.1 }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>
